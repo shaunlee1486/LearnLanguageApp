@@ -1,0 +1,61 @@
+# Phase 4 Tasks
+
+- `[x]` Task 4.0 - Shared
+  - `[x]` Define ICurrentUserService and implement it
+  - `[x]` Register ICurrentUserService in DI
+- `[x]` Task 4.1 - Backend: Language Management
+  - `[x]` GetLanguagesQuery
+  - `[x]` CreateLanguageCommand
+  - `[x]` SetActiveLanguageCommand
+  - `[x]` GetUserLanguagesQuery
+  - `[x]` AddUserLanguageCommand
+  - `[x]` LanguageController
+  - `[x]` Language DTOs and Validation
+- `[x]` Task 4.2 - Backend: Category CRUD
+  - `[x]` GetCategoriesQuery
+  - `[x]` GetCategoryByIdQuery
+  - `[x]` CreateCategoryCommand
+  - `[x]` UpdateCategoryCommand
+  - `[x]` DeleteCategoryCommand
+  - `[x]` CategoryController
+  - `[x]` Category DTOs and Validation
+- `[x]` Task 4.3 - Frontend: Language Selector
+  - `[x]` stores/languageStore.ts
+  - `[x]` Language selector component
+  - `[x]` Integrate into Header modal
+  - `[x]` app/(main)/languages/page.tsx
+- `[x]` Task 4.4 - Frontend: Categories
+  - `[x]` app/(main)/categories/page.tsx
+  - `[x]` Category card component
+  - `[x]` Create/Edit category modal
+  - `[x]` Delete confirmation modal
+  - `[x]` services/categoryService.ts
+- `[x]` Task 4.5 - Frontend: Main Layout
+  - `[x]` Sidebar navigation
+  - `[x]` Top navbar
+  - `[x]` Responsive design
+  - `[x]` Dark mode toggle
+
+# Phase 5 Tasks
+- `[ ]` Task 5.1 - Backend: Word CRUD
+  - `[ ]` GetWordsByCategoryQuery
+  - `[ ]` GetWordByIdQuery
+  - `[ ]` CreateWordCommand
+  - `[ ]` UpdateWordCommand
+  - `[ ]` DeleteWordCommand
+  - `[ ]` MarkWordAlreadyKnownCommand
+  - `[ ]` Review List commands/queries
+  - `[ ]` WordController & DTOs
+- `[ ]` Task 5.2 - Backend: Image Upload Service
+  - `[ ]` IImageStorageService & LocalImageStorageService
+- `[ ]` Task 5.3 - Backend: IPA/Pronunciation API
+  - `[ ]` IDictionaryService & DictionaryController
+- `[ ]` Task 5.4 - Frontend: Word List View
+  - `[ ]` Category word list page
+  - `[ ]` Checkbox selection
+- `[ ]` Task 5.5 - Frontend: Word Form Modal
+  - `[ ]` Word input & IPA auto-fetch
+  - `[ ]` Meanings & Examples dynamic rows
+  - `[ ]` Image upload support
+- `[ ]` Task 5.6 - Frontend: Review List Page
+  - `[ ]` Review list page UI

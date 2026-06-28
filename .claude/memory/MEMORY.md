@@ -4,22 +4,27 @@
 - **Phase 1 — Project Scaffolding & Infrastructure**
 - **Phase 2 — Domain Layer & Database**
 - **Phase 3 — Authentication & Authorization**
+- **Phase 4 — Language & Category Management**
 
-## What Was Built (Phase 2 & 3)
-- Implemented all domain models (User, Role, Language, Word, Radical, etc.) in `YK.Domain`.
-- Configured Entity Framework DB sets, Fluent configurations, and audits in `YK.Infrastructure`.
-- Set up PostgreSQL migrations using DbUp in `YK.Migration`.
-- Created authentication MediatR commands (`Register`, `Login`, `RefreshToken`, `Logout`, `ForgotPassword`, `ResetPassword`) with FluentValidation.
-- Created `JwtService` and `EmailService` inside `YK.Infrastructure` and linked ASP.NET Core Identity.
-- Configured `AuthController` with mapping profiles to expose REST endpoints.
-- Re-implemented API client in `yk-frontend/lib/api.ts` using Axios with token refresh interceptors.
-- Developed the auth UI pages in `app/(auth)` with Next.js App Router (Login, Register, Forgot Password, Reset Password) and Zustand state management.
+## What Was Built (Phase 4)
+- Developed `ICurrentUserService` to safely extract authenticated user ID in application commands/queries.
+- Created Backend Handlers/Controllers for managing Languages (`GetLanguagesQuery`, `AddUserLanguageCommand`, `SetActiveLanguageCommand`).
+- Created Backend CRUD Operations for Categories (`CreateCategoryCommand`, `UpdateCategoryCommand`, etc.) restricted to the active language context.
+- Fixed asynchronous implementations in `IRepository<T>` and `Repository<T>`, and introduced `Query()` to expose `IQueryable` for LINQ operations.
+- Updated Next.js UI structure for the main dashboard `app/(main)/layout.tsx`.
+- Integrated Zustand state stores `languageStore.ts` and `categoryStore.ts`.
+- Developed `LanguageSelector.tsx` for easy active language switching in the header.
+- Designed `CategoriesPage` with modern modal-based CRUD functionality and clean responsive layout using `lucide-react`.
 
 ## Known Issues Found and Fixed
-1. **Missing Identity Managers in Application Layer:** CQRS Handlers required `UserManager` and `SignInManager`.
-   - *Fix:* Added `<FrameworkReference Include="Microsoft.AspNetCore.App" />` to `YK.Application.csproj` for Identity support without tight coupling.
+1. **Repository IQueryable Missing:** The standard generic repository lacked robust querying capability which was hindering filtering logic (e.g. ActiveLanguage mapping).
+   - *Fix:* Added `IQueryable<T> Query()` method to `IRepository<T>` so `MediatR` handlers can efficiently construct database queries using Entity Framework core features.
+2. **AutoMapper Registration Conflict:** Multiple instances and scoping errors caused dependency injection failures in the application builder.
+   - *Fix:* Directly specified the assembly target during `AddAutoMapper` initialization.
 
 ## Outstanding Items for the Next Phase
-- **Phase 4 — Language & Category Management**
-  - Implement language selection, custom language creation.
-  - Implement full CRUD for categories (API + frontend).
+- **Phase 5 — Vocabulary (Words) Module**
+  - Implement full Word CRUD (meanings, examples).
+  - Setup API integrations for IPA and Pronunciation audio auto-fetching.
+  - Setup Image storage logic.
+  - Frontend word list view, creation modals, and integration with Review list.

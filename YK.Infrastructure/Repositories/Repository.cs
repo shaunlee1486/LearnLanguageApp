@@ -21,19 +21,24 @@ namespace YK.Infrastructure.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public virtual async Task<T?> GetByIdAsync(Guid id)
+        public virtual IQueryable<T> Query()
         {
-            return await _dbSet.FindAsync(id);
+            return _dbSet.AsQueryable();
         }
 
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.FindAsync(new object[] { id }, cancellationToken);
         }
 
-        public virtual async Task AddAsync(T entity)
+        public virtual async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            await _dbSet.AddAsync(entity);
+            return await _dbSet.ToListAsync(cancellationToken);
+        }
+
+        public virtual async Task AddAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            await _dbSet.AddAsync(entity, cancellationToken);
         }
 
         public virtual void Update(T entity)
@@ -69,7 +74,8 @@ namespace YK.Infrastructure.Repositories
             int pageSize,
             Expression<Func<T, bool>>? filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-            string includeProperties = "")
+            string includeProperties = "",
+            CancellationToken cancellationToken = default)
         {
             IQueryable<T> query = _dbSet;
 
@@ -83,7 +89,7 @@ namespace YK.Infrastructure.Repositories
                 query = query.Include(includeProperty.Trim());
             }
 
-            int totalCount = await query.CountAsync();
+            int totalCount = await query.CountAsync(cancellationToken);
 
             if (orderBy != null)
             {
@@ -93,7 +99,7 @@ namespace YK.Infrastructure.Repositories
             var items = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return (items, totalCount);
         }

@@ -1,18 +1,28 @@
-using Microsoft.OpenApi.Models;
-using YK.Presentation.Middleware;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
+using YK.Application.Auth.Commands;
+using YK.Application.Interfaces;
 using YK.Domain;
 using YK.Infrastructure;
 using YK.Infrastructure.Interceptors;
-using YK.Application.Interfaces;
 using YK.Infrastructure.Repositories;
+using YK.Infrastructure.Services;
+using YK.Presentation.MappingProfiles;
+using YK.Presentation.Middleware;
+using YK.Presentation.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add controllers from Presentation layer
 builder.Services.AddControllers()
-    .AddApplicationPart(typeof(YK.Presentation.Controllers.TestController).Assembly);
+    .AddApplicationPart(typeof(YK.Presentation.Controllers.AuthController).Assembly);
+
+// Add HttpContextAccessor for CurrentUserService
+builder.Services.AddHttpContextAccessor();
 
 // Add CORS policy for the frontend
 builder.Services.AddCors(options =>
@@ -85,15 +95,49 @@ builder.Services.AddIdentityCore<User>(options =>
 })
 .AddRoles<Role>()
 .AddEntityFrameworkStores<AppDbContext>()
-.AddDefaultTokenProviders();
+.AddDefaultTokenProviders()
+.AddSignInManager<SignInManager<User>>();
+
+// Add Authentication and Authorization (JWT)
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var secretKey = jwtSettings["Secret"] ?? "SuperSecretKeyForDevelopmentOnlyPleaseChangeLater";
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"] ?? "YKApi",
+        ValidAudience = jwtSettings["Audience"] ?? "YKFrontEnd",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthorization();
+
+// Add MediatR
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(RegisterCommand).Assembly));
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(config => {}, typeof(AuthMappingProfile).Assembly);
 
 // Add Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Add Authentication and Authorization placeholders (fully configured in Phase 3)
-builder.Services.AddAuthentication();
-builder.Services.AddAuthorization();
+// Add Services
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 var app = builder.Build();
 
