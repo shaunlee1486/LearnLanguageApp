@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using System;
 using YK.Common;
 
@@ -9,3 +9,4 @@ namespace YK.Application.Languages.Commands
         public Guid LanguageId { get; set; }
     }
 }
+

@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using YK.Common;
 
 namespace YK.Application.Auth.Commands
@@ -10,3 +10,4 @@ namespace YK.Application.Auth.Commands
         public string NewPassword { get; set; } = string.Empty;
     }
 }
+

@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace YK.Application.Auth.Commands
 {
@@ -11,3 +11,4 @@ namespace YK.Application.Auth.Commands
         }
     }
 }
+

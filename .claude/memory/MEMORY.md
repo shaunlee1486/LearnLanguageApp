@@ -5,26 +5,24 @@
 - **Phase 2 — Domain Layer & Database**
 - **Phase 3 — Authentication & Authorization**
 - **Phase 4 — Language & Category Management**
+- **Phase 5 — Vocabulary (Words) Module**
 
-## What Was Built (Phase 4)
-- Developed `ICurrentUserService` to safely extract authenticated user ID in application commands/queries.
-- Created Backend Handlers/Controllers for managing Languages (`GetLanguagesQuery`, `AddUserLanguageCommand`, `SetActiveLanguageCommand`).
-- Created Backend CRUD Operations for Categories (`CreateCategoryCommand`, `UpdateCategoryCommand`, etc.) restricted to the active language context.
-- Fixed asynchronous implementations in `IRepository<T>` and `Repository<T>`, and introduced `Query()` to expose `IQueryable` for LINQ operations.
-- Updated Next.js UI structure for the main dashboard `app/(main)/layout.tsx`.
-- Integrated Zustand state stores `languageStore.ts` and `categoryStore.ts`.
-- Developed `LanguageSelector.tsx` for easy active language switching in the header.
-- Designed `CategoriesPage` with modern modal-based CRUD functionality and clean responsive layout using `lucide-react`.
+## What Was Built (Phase 5)
+- **Word Domain Entity**: Implemented CRUD operations (`CreateWordCommand`, `UpdateWordCommand`, `DeleteWordCommand`, `GetWordsByCategoryQuery`, `GetWordByIdQuery`).
+- **Word State Management**: Added endpoints to mark words as "Already Known" and manage words within the user's "Review List" (for upcoming spaced repetition).
+- **Image Upload Integration**: Implemented an `IImageStorageService` with a `LocalImageStorageService` backend to save images locally inside `wwwroot/uploads/images`.
+- **Dictionary API Integration**: Implemented an `IDictionaryService` connecting to the Free Dictionary API (`dictionaryapi.dev`) to fetch pronunciations, IPA text, and audio URLs.
+- **Frontend Word List View**: Built `useWordStore` utilizing Zustand. Added a beautiful list view (`/categories/[id]`) for words inside a given category with play buttons for audio and checkbox multi-selection.
+- **Word Form Modal**: A rich, complex modal form for creating and editing words with dynamic rows for meanings and examples, image upload support, and a Dictionary auto-fill "Magic Wand" button.
+- **Review List Page**: Added a dedicated page (`/review`) to view all the vocabulary tagged for study/review.
 
 ## Known Issues Found and Fixed
-1. **Repository IQueryable Missing:** The standard generic repository lacked robust querying capability which was hindering filtering logic (e.g. ActiveLanguage mapping).
-   - *Fix:* Added `IQueryable<T> Query()` method to `IRepository<T>` so `MediatR` handlers can efficiently construct database queries using Entity Framework core features.
-2. **AutoMapper Registration Conflict:** Multiple instances and scoping errors caused dependency injection failures in the application builder.
-   - *Fix:* Directly specified the assembly target during `AddAutoMapper` initialization.
+1. **Guid Type Mismatch in Identity Context**: `ICurrentUserService`'s `UserId` (string) was failing Entity Framework constraints for the Application User ID (`Guid`).
+   - *Fix*: Created a `UserIdGuid` property in `ICurrentUserService` and refactored backend Handlers to correctly cast the authenticated user ID as a `Guid` before executing EF queries.
+2. **Missing `Value` parsing on Nullable Guids**: Refactoring code to use `Guid?` introduced compile errors when comparing with EF Entities.
+   - *Fix*: Correctly used `.Value` when assigning to Entity `UserId` columns.
 
 ## Outstanding Items for the Next Phase
-- **Phase 5 — Vocabulary (Words) Module**
-  - Implement full Word CRUD (meanings, examples).
-  - Setup API integrations for IPA and Pronunciation audio auto-fetching.
-  - Setup Image storage logic.
-  - Frontend word list view, creation modals, and integration with Review list.
+- **Phase 6 — Spaced Repetition (Flashcards) UI**
+  - Implement study session logic and UI.
+  - Implement SM-2 algorithm backend calculation and spaced repetition updating logic.

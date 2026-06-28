@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,3 +12,4 @@ namespace YK.Application.Interfaces
         Task RollbackAsync(CancellationToken cancellationToken = default);
     }
 }
+

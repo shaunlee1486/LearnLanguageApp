@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using YK.Common;
 
 namespace YK.Application.Auth.Commands
@@ -8,3 +8,4 @@ namespace YK.Application.Auth.Commands
         public string Email { get; set; } = string.Empty;
     }
 }
+

@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,3 +43,4 @@ namespace YK.Application.Languages.Commands
         }
     }
 }
+

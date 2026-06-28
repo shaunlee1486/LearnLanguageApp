@@ -163,9 +163,11 @@ export default function CategoriesPage() {
           {categories.map(category => (
             <div key={category.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-emerald-500/30 transition-all group relative overflow-hidden flex flex-col">
               <div className="flex justify-between items-start mb-2">
-                <h3 className="text-xl font-bold text-slate-200 group-hover:text-emerald-400 transition-colors">
-                  {category.name}
-                </h3>
+                <Link href={`/categories/${category.id}`}>
+                  <h3 className="text-xl font-bold text-slate-200 group-hover:text-emerald-400 transition-colors cursor-pointer">
+                    {category.name}
+                  </h3>
+                </Link>
                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button 
                     onClick={() => openEditModal(category)}

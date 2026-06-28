@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -44,3 +44,4 @@ namespace YK.Application.Languages.Queries
         }
     }
 }
+

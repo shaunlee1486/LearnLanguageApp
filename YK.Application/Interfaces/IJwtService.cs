@@ -1,4 +1,4 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using YK.Domain;
 
 namespace YK.Application.Interfaces
@@ -10,3 +10,4 @@ namespace YK.Application.Interfaces
         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
     }
 }
+

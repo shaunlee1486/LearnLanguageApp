@@ -1,4 +1,4 @@
-namespace YK.Application.Auth.DTOs
+﻿namespace YK.Application.Auth.DTOs
 {
     public class AuthResponseDto
     {
@@ -6,3 +6,4 @@ namespace YK.Application.Auth.DTOs
         public string RefreshToken { get; set; } = string.Empty;
     }
 }
+

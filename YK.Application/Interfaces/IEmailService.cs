@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace YK.Application.Interfaces
 {
@@ -7,3 +7,4 @@ namespace YK.Application.Interfaces
         Task SendPasswordResetEmailAsync(string email, string resetLink);
     }
 }
+

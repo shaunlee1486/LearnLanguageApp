@@ -34,10 +34,10 @@ namespace YK.Application.Categories.Queries
 
         public async Task<ApiResponse<IEnumerable<CategoryDto>>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var userId = _currentUserService.UserId;
+            var userId = _currentUserService.UserIdGuid;
             if (userId == null) return ApiResponse<IEnumerable<CategoryDto>>.FailureResult("Unauthorized");
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user?.ActiveLanguageId == null)
                 return ApiResponse<IEnumerable<CategoryDto>>.FailureResult("No active language selected");
 
@@ -59,3 +59,5 @@ namespace YK.Application.Categories.Queries
         }
     }
 }
+
+

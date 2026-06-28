@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using System;
 using YK.Application.DTOs.Category;
 using YK.Common;
@@ -12,3 +12,4 @@ namespace YK.Application.Categories.Commands
         public string? Description { get; set; }
     }
 }
+

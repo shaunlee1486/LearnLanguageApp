@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,3 +35,4 @@ namespace YK.Application.Auth.Commands
         }
     }
 }
+

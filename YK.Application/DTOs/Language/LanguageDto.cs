@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace YK.Application.DTOs.Language
 {
@@ -10,3 +10,4 @@ namespace YK.Application.DTOs.Language
         public bool IsDefault { get; set; }
     }
 }
+

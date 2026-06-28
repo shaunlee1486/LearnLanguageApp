@@ -23,13 +23,13 @@ namespace YK.Application.Languages.Commands
 
         public async Task<ApiResponse<bool>> Handle(SetActiveLanguageCommand request, CancellationToken cancellationToken)
         {
-            var userId = _currentUserService.UserId;
+            var userId = _currentUserService.UserIdGuid;
             if (userId == null)
             {
                 return ApiResponse<bool>.FailureResult("Unauthorized");
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
                 return ApiResponse<bool>.FailureResult("User not found");
@@ -47,3 +47,5 @@ namespace YK.Application.Languages.Commands
         }
     }
 }
+
+

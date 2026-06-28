@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using YK.Application.Auth.DTOs;
 using YK.Common;
 
@@ -10,3 +10,4 @@ namespace YK.Application.Auth.Commands
         public string RefreshToken { get; set; } = string.Empty;
     }
 }
+

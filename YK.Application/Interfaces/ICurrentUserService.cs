@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace YK.Application.Interfaces
 {
@@ -8,3 +8,4 @@ namespace YK.Application.Interfaces
         Guid? UserIdGuid { get; }
     }
 }
+

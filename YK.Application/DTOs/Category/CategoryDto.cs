@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace YK.Application.DTOs.Category
 {
@@ -12,3 +12,4 @@ namespace YK.Application.DTOs.Category
         public DateTime CreatedAt { get; set; }
     }
 }
+

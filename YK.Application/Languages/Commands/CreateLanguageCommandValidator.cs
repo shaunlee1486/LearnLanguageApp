@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace YK.Application.Languages.Commands
 {
@@ -14,3 +14,4 @@ namespace YK.Application.Languages.Commands
         }
     }
 }
+

@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using System;
 using YK.Application.DTOs.Category;
 using YK.Common;
@@ -10,3 +10,4 @@ namespace YK.Application.Categories.Queries
         public Guid Id { get; set; }
     }
 }
+

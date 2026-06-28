@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using YK.Application.DTOs.Language;
 using YK.Common;
 
@@ -10,3 +10,4 @@ namespace YK.Application.Languages.Commands
         public string LocaleCode { get; set; } = string.Empty;
     }
 }
+

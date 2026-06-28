@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using System.Collections.Generic;
 using YK.Application.DTOs.Category;
 using YK.Common;
@@ -12,3 +12,4 @@ namespace YK.Application.Categories.Queries
         // Optionally pass language id, if not it will use the user's active language
     }
 }
+

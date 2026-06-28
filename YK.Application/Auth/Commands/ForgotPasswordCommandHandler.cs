@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
@@ -44,3 +44,4 @@ namespace YK.Application.Auth.Commands
         }
     }
 }
+

@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using YK.Application.Interfaces;
@@ -39,3 +39,4 @@ namespace YK.Application.Categories.Commands
         }
     }
 }
+

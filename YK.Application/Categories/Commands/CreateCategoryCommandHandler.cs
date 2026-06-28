@@ -34,10 +34,10 @@ namespace YK.Application.Categories.Commands
 
         public async Task<ApiResponse<CategoryDto>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var userId = _currentUserService.UserId;
+            var userId = _currentUserService.UserIdGuid;
             if (userId == null) return ApiResponse<CategoryDto>.FailureResult("Unauthorized");
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user?.ActiveLanguageId == null)
             {
                 return ApiResponse<CategoryDto>.FailureResult("No active language selected. Please select a language first.");
@@ -59,3 +59,5 @@ namespace YK.Application.Categories.Commands
         }
     }
 }
+
+

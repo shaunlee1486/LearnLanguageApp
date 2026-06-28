@@ -138,6 +138,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddScoped<IImageStorageService, LocalImageStorageService>();
+builder.Services.AddHttpClient<IDictionaryService, DictionaryApiService>();
 
 var app = builder.Build();
 
@@ -155,6 +157,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles(); // Enable serving files from wwwroot
 
 app.UseCors("DefaultPolicy");
 
