@@ -1,0 +1,47 @@
+# Tasks: Phase 2 — Domain Layer & Database
+
+- [x] Task 2.1 — Domain Entities (`YK.Domain`)
+  - [x] Create `User` entity extending `IdentityUser<Guid>`
+  - [x] Create `Role` entity extending `IdentityRole<Guid>`
+  - [x] Create `Language` entity inheriting `BaseEntity`
+  - [x] Create `UserLanguage` join entity inheriting `BaseEntity`
+  - [x] Create `Category` entity inheriting `BaseEntity`
+  - [x] Create `Word` entity inheriting `BaseEntity`
+  - [x] Create `WordMeaning` entity inheriting `BaseEntity`
+  - [x] Create `WordExample` entity inheriting `BaseEntity`
+  - [x] Create `ReviewList` entity inheriting `BaseEntity`
+  - [x] Create `ReviewListWord` entity inheriting `BaseEntity`
+  - [x] Create `GrammarRule` entity inheriting `BaseEntity`
+  - [x] Create `GrammarExample` entity inheriting `BaseEntity`
+  - [x] Create `SentenceStructure` entity inheriting `BaseEntity`
+  - [x] Create `SentenceStructureExample` entity inheriting `BaseEntity`
+  - [x] Create `StudySession` entity inheriting `BaseEntity`
+  - [x] Create `TestResult` entity inheriting `BaseEntity`
+  - [x] Create `Radical` entity inheriting `BaseEntity`
+  - [x] Create `RadicalExample` entity inheriting `BaseEntity`
+  - [x] Create `RefreshToken` entity inheriting `BaseEntity`
+- [x] Task 2.2 — Enums (`YK.Domain/Enums/`)
+  - [x] Create `WordStatus` enum
+  - [x] Create `TypeOfWord` enum
+  - [x] Create `StudyMode` enum
+  - [x] Create `TestType` enum
+  - [x] Create `ReviewSubMode` enum
+- [x] Task 2.3 — EF Core Configuration (`YK.Infrastructure`)
+  - [x] Create `AppDbContext.cs` inheriting `IdentityDbContext<User, Role, Guid>`
+  - [x] Implement fluent configurations for all entities in `Configurations/`
+  - [x] Override `OnModelCreating` to rename AspNet tables
+  - [x] Implement global query filter for `IsDeleted`
+  - [x] Create `SaveChangesInterceptor` for audits
+- [x] Task 2.4 — Repository & Unit of Work (`YK.Application` & `YK.Infrastructure`)
+  - [x] Create `IRepository<T>` and `IUnitOfWork` interfaces in `YK.Application`
+  - [x] Create `Repository<T>` and `UnitOfWork` implementations in `YK.Infrastructure`
+- [x] Task 2.5 — DbUp Migrations (`YK.Migration`)
+  - [x] Write `001_CreateTables.sql` with correct fields and relationships
+  - [x] Write `001_SeedLanguages.sql` seeding default languages
+  - [x] Write `002_SeedRadicals.sql` seeding the 214 radicals
+  - [x] Configure `YK.Migration/Program.cs` to run the migration scripts
+- [x] Task 2.6 — Verification
+  - [x] Build solution
+  - [x] Run migration tool to set up PostgreSQL database
+  - [x] Verify database schema and table presence
+  - [x] Add walkthrough results to `MEMORY.md`

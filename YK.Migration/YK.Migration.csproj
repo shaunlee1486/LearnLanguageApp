@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\YK.Common\YK.Common.csproj" />
@@ -7,6 +7,12 @@
   <ItemGroup>
     <PackageReference Include="dbup-core" Version="6.1.1" />
     <PackageReference Include="dbup-postgresql" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\**\*.sql" />
+    <EmbeddedResource Include="SeedData\**\*.sql" />
+    <EmbeddedResource Include="SampleData\**\*.sql" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -1,5 +1,12 @@
 using Microsoft.OpenApi.Models;
 using YK.Presentation.Middleware;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using YK.Domain;
+using YK.Infrastructure;
+using YK.Infrastructure.Interceptors;
+using YK.Application.Interfaces;
+using YK.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,6 +63,33 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+// Add DbContext
+builder.Services.AddSingleton<AuditSaveChangesInterceptor>();
+builder.Services.AddDbContext<AppDbContext>((sp, options) =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    var auditInterceptor = sp.GetRequiredService<AuditSaveChangesInterceptor>();
+    options.UseNpgsql(connectionString)
+           .AddInterceptors(auditInterceptor);
+});
+
+// Add Identity
+builder.Services.AddIdentityCore<User>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+})
+.AddRoles<Role>()
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+
+// Add Repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Add Authentication and Authorization placeholders (fully configured in Phase 3)
 builder.Services.AddAuthentication();
