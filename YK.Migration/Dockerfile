@@ -3,11 +3,16 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /app
 
 # Copy project files and restore
-COPY *.sln .
+COPY YK.LanguageLearn.slnx .
+COPY YK.Domain/*.csproj ./YK.Domain/
 COPY YK.Common/*.csproj ./YK.Common/
+COPY YK.Application/*.csproj ./YK.Application/
+COPY YK.Infrastructure/*.csproj ./YK.Infrastructure/
+COPY YK.Presentation/*.csproj ./YK.Presentation/
 COPY YK.Migration/*.csproj ./YK.Migration/
+COPY YK.API/*.csproj ./YK.API/
 
-RUN dotnet restore YK.Migration/YK.Migration.csproj
+RUN dotnet restore YK.LanguageLearn.slnx
 
 # Copy source code and build
 COPY YK.Common/ ./YK.Common/
