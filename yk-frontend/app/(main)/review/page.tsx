@@ -58,12 +58,13 @@ export default function ReviewListPage() {
         </div>
         
         {reviewWords.length > 0 && (
-          <button
+          <Link
+            href="/review/start"
             className="flex items-center justify-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-indigo-500/20"
           >
             <BookOpen className="w-4 h-4" />
             Start Study Session
-          </button>
+          </Link>
         )}
       </div>
 

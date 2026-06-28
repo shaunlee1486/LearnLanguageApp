@@ -1,0 +1,38 @@
+# Phase 6 Tasks
+
+- `[x]` Task 6.1 - Backend: Word Review Session
+  - `[x]` StudySession Entity and config
+  - `[x]` StartReviewSessionCommand
+  - `[x]` GetReviewSessionQuery
+  - `[x]` SubmitReviewResultCommand
+  - `[x]` GenerateQuizOptionsQuery
+  - `[x]` ReviewController & DTOs
+- `[x]` Task 6.2 - Frontend: Review Session Configuration
+  - `[x]` /review/start UI and config form
+- `[x]` Task 6.3 - Frontend: Flash Cards Mode
+  - `[x]` Flash Card component with flip animation
+  - `[x]` Status update buttons
+- `[x]` Task 6.4 - Frontend: Quiz Mode
+  - `[x]` 4-choice button layout and feedback
+  - `[x]` Auto-advance logic
+- `[x]` Task 6.5 - Frontend: Type Answer Mode
+  - `[x]` Prompt display based on sub-mode
+  - `[x]` Text input and validation
+- `[x]` Task 6.6 - Frontend: Session Summary
+  - `[x]` Results page
+- `[x]` Task 6.7 - Backend: Grammar CRUD
+  - `[x]` GrammarRule and GrammarExample Entities
+  - `[x]` Create, Update, Delete Commands
+  - `[x]` Get Queries
+  - `[x]` Grammar Test Endpoints
+- `[x]` Task 6.8 - Frontend: Grammar Pages
+  - `[x]` List page and CRUD modal
+  - `[x]` Grammar Test page
+- `[x]` Task 6.9 - Backend: Sentence Structure CRUD
+  - `[x]` SentenceStructure and Example Entities
+  - `[x]` Create, Update, Delete Commands
+  - `[x]` Queries and Controller
+  - `[x]` Structure Test logic
+- `[x]` Task 6.10 - Frontend: Sentence Structure Pages
+  - `[x]` List page and CRUD modal
+  - `[x]` Structure Test page
