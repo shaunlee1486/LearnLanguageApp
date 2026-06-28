@@ -25,6 +25,7 @@ namespace YK.Application.ReviewSessions.Commands
         private readonly IRepository<Word> _wordRepository;
         private readonly IRepository<ReviewList> _reviewListRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IUserStreakService _userStreakService;
         private readonly IUnitOfWork _unitOfWork;
 
         public SubmitReviewResultCommandHandler(
@@ -32,12 +33,14 @@ namespace YK.Application.ReviewSessions.Commands
             IRepository<Word> wordRepository,
             IRepository<ReviewList> reviewListRepository,
             ICurrentUserService currentUserService,
+            IUserStreakService userStreakService,
             IUnitOfWork unitOfWork)
         {
             _studySessionRepository = studySessionRepository;
             _wordRepository = wordRepository;
             _reviewListRepository = reviewListRepository;
             _currentUserService = currentUserService;
+            _userStreakService = userStreakService;
             _unitOfWork = unitOfWork;
         }
 
@@ -77,13 +80,24 @@ namespace YK.Application.ReviewSessions.Commands
                 if (result.IsCorrect)
                 {
                     correctCount++;
+
+                    // SM-2 Correct
+                    if (word.RepetitionCount == 0) word.Interval = 1;
+                    else if (word.RepetitionCount == 1) word.Interval = 6;
+                    else word.Interval = (int)Math.Round(word.Interval * word.EasyFactor);
+
+                    word.RepetitionCount++;
+                    word.EasyFactor = Math.Max(1.3, word.EasyFactor + 0.1); // Slightly increase if correct
+                    word.NextReviewDate = DateTime.UtcNow.AddDays(word.Interval);
+
                     // Basic progression logic
                     if (word.Status == WordStatus.NotLearned)
                     {
                         word.Status = WordStatus.Learned;
                     }
-                    else if (word.Status == WordStatus.Learned)
+                    else if (word.Status == WordStatus.Learned && word.RepetitionCount >= 4)
                     {
+                        // If they answered correctly 4 times, consider it known
                         word.Status = WordStatus.AlreadyKnown;
                         
                         // Remove from review list if mastered
@@ -99,6 +113,12 @@ namespace YK.Application.ReviewSessions.Commands
                 }
                 else
                 {
+                    // SM-2 Incorrect
+                    word.RepetitionCount = 0;
+                    word.Interval = 1;
+                    word.EasyFactor = Math.Max(1.3, word.EasyFactor - 0.2); // Decrease difficulty factor
+                    word.NextReviewDate = DateTime.UtcNow.AddDays(1);
+
                     // If incorrect, demote status or keep it as NotLearned
                     if (word.Status == WordStatus.AlreadyKnown)
                         word.Status = WordStatus.Learned;
@@ -112,6 +132,9 @@ namespace YK.Application.ReviewSessions.Commands
             {
                 _reviewListRepository.Update(reviewList);
             }
+
+            // Update user streak
+            await _userStreakService.UpdateStreakAsync(userId.Value, cancellationToken);
 
             await _unitOfWork.SaveChangesAsync();
 

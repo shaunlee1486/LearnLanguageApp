@@ -139,6 +139,7 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<IImageStorageService, LocalImageStorageService>();
+builder.Services.AddScoped<IUserStreakService, YK.Application.Services.UserStreakService>();
 builder.Services.AddHttpClient<IDictionaryService, DictionaryApiService>();
 
 var app = builder.Build();

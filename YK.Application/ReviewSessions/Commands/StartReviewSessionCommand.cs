@@ -77,10 +77,15 @@ namespace YK.Application.ReviewSessions.Commands
             // Execute query and order in memory since random ordering in EF can be tricky across providers
             var allWords = await wordsQuery.ToListAsync(cancellationToken);
             
-            // Priority: NotLearned first, then Learned, then AlreadyKnown
+            var now = DateTime.UtcNow;
+
+            // Priority:
+            // 1. Due words (NextReviewDate <= now) or never reviewed (NextReviewDate == null)
+            // 2. Status (NotLearned first, then Learned)
             var selectedWords = allWords
-                .OrderBy(w => w.Status)
-                .ThenBy(w => Guid.NewGuid()) // shuffle within status
+                .OrderBy(w => w.NextReviewDate.HasValue && w.NextReviewDate.Value > now ? 1 : 0) // Due first
+                .ThenBy(w => w.Status)
+                .ThenBy(w => w.NextReviewDate ?? DateTime.MinValue) // Older due dates first
                 .Take(request.WordLimit)
                 .ToList();
 

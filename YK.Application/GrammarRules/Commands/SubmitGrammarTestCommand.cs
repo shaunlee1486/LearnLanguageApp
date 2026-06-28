@@ -24,17 +24,20 @@ namespace YK.Application.GrammarRules.Commands
         private readonly IRepository<TestResult> _testResultRepository;
         private readonly IRepository<User> _userRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IUserStreakService _userStreakService;
         private readonly IUnitOfWork _unitOfWork;
 
         public SubmitGrammarTestCommandHandler(
             IRepository<TestResult> testResultRepository,
             IRepository<User> userRepository,
             ICurrentUserService currentUserService,
+            IUserStreakService userStreakService,
             IUnitOfWork unitOfWork)
         {
             _testResultRepository = testResultRepository;
             _userRepository = userRepository;
             _currentUserService = currentUserService;
+            _userStreakService = userStreakService;
             _unitOfWork = unitOfWork;
         }
 
@@ -62,6 +65,7 @@ namespace YK.Application.GrammarRules.Commands
             };
 
             await _testResultRepository.AddAsync(result);
+            await _userStreakService.UpdateStreakAsync(userId.Value, cancellationToken);
             await _unitOfWork.SaveChangesAsync();
 
             return ApiResponse<Guid>.SuccessResult(result.Id);

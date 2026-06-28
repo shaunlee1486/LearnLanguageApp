@@ -18,6 +18,11 @@ namespace YK.Domain
         public string? ModifiedBy { get; set; }
         public bool IsDeleted { get; set; } = false;
 
+        // User streak and study tracking
+        public int CurrentStreak { get; set; } = 0;
+        public int LongestStreak { get; set; } = 0;
+        public DateTime? LastStudyDate { get; set; }
+
         // Navigation properties
         public ICollection<UserLanguage> UserLanguages { get; set; } = new List<UserLanguage>();
         public ICollection<Category> Categories { get; set; } = new List<Category>();

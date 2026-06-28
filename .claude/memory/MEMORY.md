@@ -6,6 +6,8 @@
 - **Phase 3 — Authentication & Authorization**
 - **Phase 4 — Language & Category Management**
 - **Phase 5 — Vocabulary (Words) Module**
+- **Phase 6 — Spaced Repetition (Flashcards) & Grammar Modules**
+- **Phase 7 — SM-2 Spaced Repetition & User Dashboard**
 
 ## What Was Built (Phase 5)
 - **Word Domain Entity**: Implemented CRUD operations (`CreateWordCommand`, `UpdateWordCommand`, `DeleteWordCommand`, `GetWordsByCategoryQuery`, `GetWordByIdQuery`).
@@ -23,6 +25,15 @@
    - *Fix*: Correctly used `.Value` when assigning to Entity `UserId` columns.
 
 ## Outstanding Items for the Next Phase
-- **Phase 6 — Spaced Repetition (Flashcards) UI**
-  - Implement study session logic and UI.
-  - Implement SM-2 algorithm backend calculation and spaced repetition updating logic.
+- **Phase 6 — Spaced Repetition (Flashcards) & Grammar Modules**
+
+## What Was Built (Phase 6)
+- **Review Session (Backend & Frontend)**: Added `StartReviewSessionCommand`, `SubmitReviewResultCommand`, and related queries. Frontend features `/review/start` for configuration and `/review/session/[id]` for the actual session. Three modes: Flash Cards, Multiple Choice Quiz, and Type Answer.
+- **Grammar Management**: `GrammarRule` and `GrammarExample` entities with full CRUD operations. Frontend page `/grammar` with expandable examples and a clean `GrammarModal`.
+- **Grammar Test**: Auto-generated tests to deduce the correct grammar rule based on an example sentence.
+- **Sentence Structure Management**: `SentenceStructure` and `SentenceStructureExample` entities with CRUD operations. Frontend mapping via `/structures` and `StructureModal`.
+- **Sentence Structure Test**: Similar to grammar test, challenging users to map an example sentence to its structural pattern.
+
+## Outstanding Items for the Next Phase
+- **Phase 7 — TBD**
+  - Proceed with the next major feature (e.g., Dashboard/Progress Tracking, Advanced Algorithms, or other modules).
