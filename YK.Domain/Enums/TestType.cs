@@ -5,6 +5,7 @@ namespace YK.Domain.Enums
         Vocabulary,
         Grammar,
         SentenceStructure,
-        Custom
+        Custom,
+        RadicalTest
     }
 }

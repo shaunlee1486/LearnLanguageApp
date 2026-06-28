@@ -7,7 +7,9 @@
 - **Phase 4 — Language & Category Management**
 - **Phase 5 — Vocabulary (Words) Module**
 - **Phase 6 — Spaced Repetition (Flashcards) & Grammar Modules**
-- **Phase 7 — SM-2 Spaced Repetition & User Dashboard**
+- **Phase 7 — SM-2 Spaced Repetition, User Dashboard & Custom Tests**
+- **Phase 8 — Radicals Module (Chinese/Japanese)**
+- **Phase 9 — Docker & DevOps (Final Polish)**
 
 ## What Was Built (Phase 5)
 - **Word Domain Entity**: Implemented CRUD operations (`CreateWordCommand`, `UpdateWordCommand`, `DeleteWordCommand`, `GetWordsByCategoryQuery`, `GetWordByIdQuery`).
@@ -34,6 +36,6 @@
 - **Sentence Structure Management**: `SentenceStructure` and `SentenceStructureExample` entities with CRUD operations. Frontend mapping via `/structures` and `StructureModal`.
 - **Sentence Structure Test**: Similar to grammar test, challenging users to map an example sentence to its structural pattern.
 
-## Outstanding Items for the Next Phase
-- **Phase 7 — TBD**
-  - Proceed with the next major feature (e.g., Dashboard/Progress Tracking, Advanced Algorithms, or other modules).
+## Final Status
+- **ALL PHASES COMPLETE**. The application has been fully implemented, covering everything from core architecture to the advanced Radicals module (with stroke tracing) and Docker containerization.
+- The project is ready for deployment.

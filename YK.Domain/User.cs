@@ -23,6 +23,10 @@ namespace YK.Domain
         public int LongestStreak { get; set; } = 0;
         public DateTime? LastStudyDate { get; set; }
 
+        // Test Settings
+        public int CustomTestQuestionLimit { get; set; } = 15;
+        public int CustomTestTimerSeconds { get; set; } = 300;
+
         // Navigation properties
         public ICollection<UserLanguage> UserLanguages { get; set; } = new List<UserLanguage>();
         public ICollection<Category> Categories { get; set; } = new List<Category>();

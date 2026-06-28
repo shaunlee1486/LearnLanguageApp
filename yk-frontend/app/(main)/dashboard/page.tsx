@@ -13,8 +13,10 @@ import {
   Activity, 
   Clock,
   ChevronRight,
+  ChevronRight,
   TrendingUp,
-  Award
+  Award,
+  BookA
 } from 'lucide-react';
 
 interface RecentTestScore {
@@ -135,7 +137,7 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 space-y-8">
           
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 relative overflow-hidden group hover:border-emerald-500/50 transition-all shadow-lg hover:shadow-emerald-500/10">
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-emerald-500/10 transition-colors"></div>
               <div className="relative z-10">
@@ -174,6 +176,25 @@ export default function DashboardPage() {
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl transition-colors"
                 >
                   Browse Words <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 relative overflow-hidden group hover:border-purple-500/50 transition-all shadow-lg hover:shadow-purple-500/10">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-purple-500/10 transition-colors"></div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center mb-4">
+                  <Activity className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-100 mb-2">Custom Test</h3>
+                <p className="text-slate-400 text-sm mb-6">
+                  Challenge yourself with a mixed test of words and grammar.
+                </p>
+                <Link 
+                  href="/test-builder" 
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-purple-500/20"
+                >
+                  Build Test <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>
@@ -272,6 +293,24 @@ export default function DashboardPage() {
               </Link>
             </div>
           </div>
+
+          {(activeLanguage?.name.toLowerCase().includes('chinese') || activeLanguage?.name.toLowerCase().includes('japanese')) && (
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-3xl p-6 shadow-xl relative overflow-hidden mt-8">
+              <BookA className="absolute -bottom-4 -right-4 w-32 h-32 text-rose-500/10" />
+              <h3 className="text-lg font-bold text-slate-100 mb-2 relative z-10 flex items-center gap-2">
+                <BookA className="w-5 h-5 text-rose-400" /> Character Radicals
+              </h3>
+              <p className="text-sm text-slate-400 mb-6 relative z-10">
+                Master the foundational building blocks of characters. View stroke order animations and practice tracing.
+              </p>
+              <Link 
+                href="/radicals"
+                className="w-full px-4 py-3 bg-rose-600/20 hover:bg-rose-600/40 border border-rose-500/30 text-rose-300 rounded-xl transition-colors text-center text-sm font-bold flex items-center justify-center gap-2 relative z-10"
+              >
+                Learn Radicals <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          )}
 
         </div>
 
