@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, X, Upload, Wand2, Volume2, Trash2 } from 'lucide-react';
 import { useWordStore, Word } from '../../stores/wordStore';
+import { pinyin } from 'pinyin-pro';
+import * as wanakana from 'wanakana';
 
 interface WordFormModalProps {
   isOpen: boolean;
@@ -65,15 +67,46 @@ export default function WordFormModal({ isOpen, onClose, categoryId, languageCod
     setError('');
   };
 
+  const playAudio = () => {
+    if (audioUrl) {
+      new Audio(audioUrl).play().catch(() => {});
+      return;
+    }
+    
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      const lang = languageCode.toLowerCase();
+      let utteranceLang = '';
+      if (lang === 'zh') utteranceLang = 'zh-CN';
+      else if (lang === 'ja') utteranceLang = 'ja-JP';
+      else if (lang === 'en') utteranceLang = 'en-US';
+
+      if (utteranceLang && text) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = utteranceLang;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+  };
+
   const handleLookup = async () => {
     if (!text.trim()) return;
     
     setIsLookingUp(true);
     try {
-      const result = await lookupDictionary(text, languageCode);
-      if (result) {
-        if (result.phonetic && !ipa) setIpa(result.phonetic);
-        if (result.audioUrl && !audioUrl) setAudioUrl(result.audioUrl);
+      const lang = languageCode.toLowerCase();
+      if (lang === 'zh') {
+        const py = pinyin(text);
+        if (py && !ipa) setIpa(py);
+      } else if (lang === 'ja') {
+        const romaji = wanakana.toRomaji(text);
+        if (romaji && !ipa) setIpa(romaji);
+      } else {
+        const result = await lookupDictionary(text, languageCode);
+        if (result) {
+          if (result.phonetic && !ipa) setIpa(result.phonetic);
+          if (result.audioUrl && !audioUrl) setAudioUrl(result.audioUrl);
+        }
       }
     } catch (e) {
       // Ignore lookup errors
@@ -203,10 +236,10 @@ export default function WordFormModal({ isOpen, onClose, categoryId, languageCod
                       className="flex-1 w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2.5 text-gray-900 dark:text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
                       placeholder="https://..."
                     />
-                    {audioUrl && (
+                    {(audioUrl || (['zh', 'ja'].includes(languageCode.toLowerCase()) && text)) && (
                       <button
                         type="button"
-                        onClick={() => new Audio(audioUrl).play().catch(() => {})}
+                        onClick={playAudio}
                         className="p-2.5 rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300"
                         title="Play Audio"
                       >

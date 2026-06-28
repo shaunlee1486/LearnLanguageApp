@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import api from '../lib/api';
+import { categoryService } from '../services/categoryService';
 
 export interface Category {
   id: string;
@@ -38,7 +38,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
   fetchCategories: async (page = 1, pageSize = 10) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.get(`/categories?page=${page}&pageSize=${pageSize}`);
+      const response = await categoryService.getCategories(page, pageSize);
       if (response.data.success) {
         set({ 
           categories: response.data.data,
@@ -55,7 +55,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
   createCategory: async (data) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.post('/categories', data);
+      const response = await categoryService.createCategory(data);
       if (response.data.success) {
         // Refresh first page
         await get().fetchCategories(1);
@@ -72,7 +72,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
   updateCategory: async (id, data) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.put(`/categories/${id}`, data);
+      const response = await categoryService.updateCategory(id, data);
       if (response.data.success) {
         // Refresh current page
         await get().fetchCategories(get().meta?.page || 1);
@@ -89,7 +89,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
   deleteCategory: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.delete(`/categories/${id}`);
+      const response = await categoryService.deleteCategory(id);
       if (response.data.success) {
         // Refresh current page
         await get().fetchCategories(get().meta?.page || 1);

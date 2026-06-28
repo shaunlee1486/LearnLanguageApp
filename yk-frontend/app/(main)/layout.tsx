@@ -1,5 +1,6 @@
 import React from 'react';
 import AppHeader from '../../components/layout/AppHeader';
+import Sidebar from '../../components/layout/Sidebar';
 
 export default function MainLayout({
   children,
@@ -10,6 +11,7 @@ export default function MainLayout({
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-200">
       <AppHeader />
       <div className="flex flex-1">
+        <Sidebar />
         <main className="flex-1 overflow-y-auto">
           <div className="max-w-7xl mx-auto p-6">
             {children}

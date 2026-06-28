@@ -29,5 +29,35 @@ namespace YK.Presentation.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet("study-time")]
+        public async Task<ActionResult<ApiResponse<System.Collections.Generic.List<DailyStudyTimeDto>>>> GetStudyTime()
+        {
+            var response = await _mediator.Send(new GetDailyStudyTimeQuery());
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
+        }
+
+        [HttpGet("word-status")]
+        public async Task<ActionResult<ApiResponse<System.Collections.Generic.List<WordStatusDistributionDto>>>> GetWordStatus()
+        {
+            var response = await _mediator.Send(new GetWordStatusDistributionQuery());
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
+        }
+
+        [HttpGet("exam-scores")]
+        public async Task<ActionResult<ApiResponse<System.Collections.Generic.List<ExamScoreDto>>>> GetExamScores()
+        {
+            var response = await _mediator.Send(new GetExamScoreHistoryQuery());
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
+        }
     }
 }

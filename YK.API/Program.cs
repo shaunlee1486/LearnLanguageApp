@@ -79,6 +79,18 @@ builder.Services.AddSingleton<AuditSaveChangesInterceptor>();
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    
+    var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+    var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
+    var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+    var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+    var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+    if (string.IsNullOrEmpty(connectionString) && !string.IsNullOrEmpty(dbHost))
+    {
+        connectionString = $"Host={dbHost};Port={dbPort ?? "5432"};Database={dbName ?? "yk_learning_db"};Username={dbUser ?? "postgres"};Password={dbPassword ?? "postgres"};Include Error Detail=true";
+    }
+
     var auditInterceptor = sp.GetRequiredService<AuditSaveChangesInterceptor>();
     options.UseNpgsql(connectionString)
            .AddInterceptors(auditInterceptor);

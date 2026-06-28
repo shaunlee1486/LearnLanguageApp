@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useReviewSessionStore, ReviewWord } from '../../../../stores/reviewSessionStore';
+import { useReviewSessionStore, ReviewWord } from '../../stores/reviewSessionStore';
+import { useLanguageStore } from '../../stores/languageStore';
 import { PlayCircle, Check, X, RotateCcw } from 'lucide-react';
 
 interface FlashCardsModeProps {
@@ -12,6 +13,10 @@ interface FlashCardsModeProps {
 
 export default function FlashCardsMode({ words, onComplete }: FlashCardsModeProps) {
   const { addResult } = useReviewSessionStore();
+  const { userLanguages, activeLanguageId } = useLanguageStore();
+  const activeLanguage = userLanguages.find(l => l.id === activeLanguageId);
+  const activeLangCode = activeLanguage?.code?.toLowerCase() || '';
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -62,9 +67,23 @@ export default function FlashCardsMode({ words, onComplete }: FlashCardsModeProp
             <h2 className="text-5xl font-bold text-slate-100 mb-4">{currentWord.text}</h2>
             {currentWord.ipa && <p className="text-xl text-slate-400 font-mono mb-4">{currentWord.ipa}</p>}
             
-            {currentWord.audioUrl && (
+            {(currentWord.audioUrl || (activeLangCode && ['zh', 'ja'].includes(activeLangCode))) && (
               <button 
-                onClick={(e) => { e.stopPropagation(); new Audio(currentWord.audioUrl!).play().catch(() => {}); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (currentWord.audioUrl) {
+                    new Audio(currentWord.audioUrl).play().catch(() => {});
+                  } else if (typeof window !== 'undefined' && window.speechSynthesis) {
+                    let utteranceLang = '';
+                    if (activeLangCode === 'zh') utteranceLang = 'zh-CN';
+                    else if (activeLangCode === 'ja') utteranceLang = 'ja-JP';
+                    
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(currentWord.text);
+                    utterance.lang = utteranceLang;
+                    window.speechSynthesis.speak(utterance);
+                  }
+                }}
                 className="p-3 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 rounded-full transition-colors"
               >
                 <PlayCircle className="w-8 h-8" />

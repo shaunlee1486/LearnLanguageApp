@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useReviewSessionStore, ReviewWord } from '../../../../stores/reviewSessionStore';
+import { useReviewSessionStore, ReviewWord } from '../../stores/reviewSessionStore';
+import { useLanguageStore } from '../../stores/languageStore';
 import { PlayCircle, ArrowRight, Check, X } from 'lucide-react';
 
 interface TypeAnswerModeProps {
@@ -11,6 +12,10 @@ interface TypeAnswerModeProps {
 
 export default function TypeAnswerMode({ words, onComplete }: TypeAnswerModeProps) {
   const { addResult } = useReviewSessionStore();
+  const { userLanguages, activeLanguageId } = useLanguageStore();
+  const activeLanguage = userLanguages.find(l => l.id === activeLanguageId);
+  const activeLangCode = activeLanguage?.code?.toLowerCase() || '';
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -79,9 +84,22 @@ export default function TypeAnswerMode({ words, onComplete }: TypeAnswerModeProp
           <div className="flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-300">
             <div className="text-2xl text-slate-300 mb-2">{currentWord.text}</div>
             {currentWord.ipa && <div className="text-slate-500 font-mono mb-3">{currentWord.ipa}</div>}
-            {currentWord.audioUrl && (
+            {(currentWord.audioUrl || (activeLangCode && ['zh', 'ja'].includes(activeLangCode))) && (
               <button 
-                onClick={() => new Audio(currentWord.audioUrl!).play().catch(() => {})}
+                onClick={() => {
+                  if (currentWord.audioUrl) {
+                    new Audio(currentWord.audioUrl).play().catch(() => {});
+                  } else if (typeof window !== 'undefined' && window.speechSynthesis) {
+                    let utteranceLang = '';
+                    if (activeLangCode === 'zh') utteranceLang = 'zh-CN';
+                    else if (activeLangCode === 'ja') utteranceLang = 'ja-JP';
+                    
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(currentWord.text);
+                    utterance.lang = utteranceLang;
+                    window.speechSynthesis.speak(utterance);
+                  }
+                }}
                 className="p-2 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 rounded-full transition-colors mb-4"
               >
                 <PlayCircle className="w-5 h-5" />

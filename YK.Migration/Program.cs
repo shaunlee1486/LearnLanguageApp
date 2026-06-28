@@ -10,8 +10,23 @@ namespace YK.Migration
         static int Main(string[] args)
         {
             var connectionString = Environment.GetEnvironmentVariable("DefaultConnection") 
-                ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
-                ?? "Host=localhost;Port=5432;Database=yk_languagelearn;Username=yk01;Password=P@ssw0rd;Include Error Detail=true";
+                ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+
+            var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+            var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+            var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+            if (string.IsNullOrEmpty(connectionString) && !string.IsNullOrEmpty(dbHost))
+            {
+                connectionString = $"Host={dbHost};Port={dbPort ?? "5432"};Database={dbName ?? "yk_learning_db"};Username={dbUser ?? "postgres"};Password={dbPassword ?? "postgres"};Include Error Detail=true";
+            }
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                connectionString = "Host=localhost;Port=5432;Database=yk_languagelearn;Username=yk01;Password=P@ssw0rd;Include Error Detail=true";
+            }
 
             Console.WriteLine("Starting migrations...");
             
