@@ -1,0 +1,29 @@
+# Task List - Phase 1 Implementation
+
+- `[x]` Create solution and backend projects
+    - `[x]` Create solution `YK.LanguageLearn.sln`
+    - `[x]` Create class libraries: `YK.Domain`, `YK.Application`, `YK.Infrastructure`, `YK.Presentation`, `YK.Common`
+    - `[x]` Create console app `YK.Migration`
+    - `[x]` Create web api `YK.API`
+    - `[x]` Add projects to solution
+    - `[x]` Add project references as per Clean Architecture dependency rules
+- `[x]` Install NuGet packages
+    - `[x]` Add packages to `YK.Application` (MediatR, FluentValidation)
+    - `[x]` Add packages to `YK.Infrastructure` (EF Core, Npgsql, Identity EF)
+    - `[x]` Add packages to `YK.Presentation` (AutoMapper)
+    - `[x]` Add packages to `YK.API` (JwtBearer, Swashbuckle)
+    - `[x]` Add packages to `YK.Migration` (DbUp)
+- `[x]` Create base entities and common classes in `YK.Common`
+    - `[x]` Create `BaseEntity.cs`
+    - `[x]` Create `ApiResponse.cs`
+    - `[x]` Create `PaginationMeta.cs`
+- `[x]` Configure API entry point and global middleware
+    - `[x]` Setup global exception middleware in `YK.Presentation` or `YK.API`
+    - `[x]` Setup basic `Program.cs` and configuration in `YK.API`
+- `[x]` Scaffold Next.js frontend
+    - `[x]` Create Next.js application `YK.FrontEnd` (using yk-frontend)
+    - `[x]` Add tailwind, typescript, zustand, and setup basic folder structures
+- `[x]` Verification
+    - `[x]` Build all projects successfully
+    - `[x]` Verify API starts and Swagger is accessible
+    - `[x]` Verify Next.js dev server starts

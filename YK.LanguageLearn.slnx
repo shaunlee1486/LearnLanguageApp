@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="YK.API/YK.API.csproj" />
+  <Project Path="YK.Application/YK.Application.csproj" />
+  <Project Path="YK.Common/YK.Common.csproj" />
+  <Project Path="YK.Domain/YK.Domain.csproj" />
+  <Project Path="YK.Infrastructure/YK.Infrastructure.csproj" />
+  <Project Path="YK.Migration/YK.Migration.csproj" />
+  <Project Path="YK.Presentation/YK.Presentation.csproj" />
+</Solution>
