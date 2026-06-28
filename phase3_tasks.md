@@ -1,0 +1,27 @@
+# Phase 3 Tasks
+
+- `[/]` Task 3.1 - Backend: Application Layer
+  - `[ ]` Define IJwtService
+  - `[ ]` Define IEmailService
+  - `[ ]` RegisterCommand & Validator
+  - `[ ]` LoginCommand & Validator
+  - `[ ]` LogoutCommand
+  - `[ ]` RefreshTokenCommand
+  - `[ ]` ForgotPasswordCommand
+  - `[ ]` ResetPasswordCommand
+- `[ ]` Task 3.2 - Backend: Infrastructure Layer
+  - `[ ]` JwtService implementation
+  - `[ ]` EmailService implementation
+- `[ ]` Task 3.3 - Backend: Presentation Layer
+  - `[ ]` Request/Response DTOs
+  - `[ ]` Mapping profiles
+  - `[ ]` AuthController
+- `[ ]` Task 3.4 - Frontend: Auth Pages
+  - `[ ]` stores/authStore.ts
+  - `[ ]` lib/api.ts update (JWT interceptor)
+  - `[ ]` Login page
+  - `[ ]` Register page
+  - `[ ]` Forgot Password page
+  - `[ ]` Reset Password page
+  - `[ ]` Auth layout
+  - `[ ]` Route protection middleware

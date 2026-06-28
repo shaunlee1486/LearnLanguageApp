@@ -2,41 +2,24 @@
 
 ## Phase Completed
 - **Phase 1 — Project Scaffolding & Infrastructure**
+- **Phase 2 — Domain Layer & Database**
+- **Phase 3 — Authentication & Authorization**
 
-## What Was Built
-- Created solution file `YK.LanguageLearn.slnx` using new XML format.
-- Set up 7 backend projects:
-  - `YK.Domain`
-  - `YK.Application`
-  - `YK.Infrastructure`
-  - `YK.Presentation`
-  - `YK.Common`
-  - `YK.API`
-  - `YK.Migration`
-- Linked all projects with Clean Architecture references.
-- Installed NuGet packages for CQRS (MediatR), validation (FluentValidation), database (EF Core, Npgsql), mapping (AutoMapper), and migration (DbUp).
-- Created shared foundation classes in `YK.Common`:
-  - `BaseEntity.cs` (uses native UUIDv7 generator `Guid.CreateVersion7()`)
-  - `ApiResponse.cs` (uniform JSON envelope format)
-  - `PaginationMeta.cs` (uniform metadata structure)
-- Created global exception handler middleware in `YK.Presentation`.
-- Configured CORS, Swagger, and endpoints registry in `YK.API/Program.cs`.
-- Created temporary `TestController.cs` in `YK.Presentation` to verify routing and exception mapping.
-- Scaffolded Next.js 16 App Router frontend (`yk-frontend`) with TypeScript, Tailwind CSS, and Zustand.
-- Configured custom fetch-based API client wrapper (`yk-frontend/lib/api.ts`) supporting JWT authorization header mapping and automatic session clear on `401 Unauthorized`.
-- Built and local-tested a premium home page landing page in `yk-frontend/app/page.tsx` styled in Vietnamese.
+## What Was Built (Phase 2 & 3)
+- Implemented all domain models (User, Role, Language, Word, Radical, etc.) in `YK.Domain`.
+- Configured Entity Framework DB sets, Fluent configurations, and audits in `YK.Infrastructure`.
+- Set up PostgreSQL migrations using DbUp in `YK.Migration`.
+- Created authentication MediatR commands (`Register`, `Login`, `RefreshToken`, `Logout`, `ForgotPassword`, `ResetPassword`) with FluentValidation.
+- Created `JwtService` and `EmailService` inside `YK.Infrastructure` and linked ASP.NET Core Identity.
+- Configured `AuthController` with mapping profiles to expose REST endpoints.
+- Re-implemented API client in `yk-frontend/lib/api.ts` using Axios with token refresh interceptors.
+- Developed the auth UI pages in `app/(auth)` with Next.js App Router (Login, Register, Forgot Password, Reset Password) and Zustand state management.
 
 ## Known Issues Found and Fixed
-1. **Package Downgrade Conflict:** Direct conflict between `Microsoft.AspNetCore.OpenApi` (requires Microsoft.OpenApi >= 2.0.0) and `Swashbuckle.AspNetCore` (requires Microsoft.OpenApi ~ 1.x) resulted in build failures. 
-   - *Fix:* Removed `Microsoft.AspNetCore.OpenApi` package and consolidated OpenApi generation using standard self-contained `Swashbuckle.AspNetCore` 6.6.2.
-2. **Nullability Warnings:** Warning CS8604 detected in `ExceptionMiddleware.cs` for potential null parameters.
-   - *Fix:* Added null-coalescing fallbacks to exception message variables.
-3. **npm package case-sensitivity:** Next.js scaffolding failed with folder name `YK.FrontEnd` because npm restricts package names containing capital letters.
-   - *Fix:* Scaffolded as `yk-frontend` in lowercase. Since Windows is case-insensitive, we referenced this lowercase folder directly.
+1. **Missing Identity Managers in Application Layer:** CQRS Handlers required `UserManager` and `SignInManager`.
+   - *Fix:* Added `<FrameworkReference Include="Microsoft.AspNetCore.App" />` to `YK.Application.csproj` for Identity support without tight coupling.
 
 ## Outstanding Items for the Next Phase
-- **Phase 2 — Domain Layer & Database**
-  - Implement domain models (User, Role, Language, Word, Radical, etc.) in `YK.Domain`.
-  - Configure Entity Framework DB sets, Fluent configurations, and audits in `YK.Infrastructure`.
-  - Set up PostgreSQL migrations using DbUp in `YK.Migration`.
-  - Add initial seed data for default languages (EN, CN, JA) and 214 Chinese radicals.
+- **Phase 4 — Language & Category Management**
+  - Implement language selection, custom language creation.
+  - Implement full CRUD for categories (API + frontend).
